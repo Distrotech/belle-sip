@@ -1,0 +1,4 @@
+libbellesip_la-clock_gettime.lo: clock_gettime.c \
+ /usr/include/stdc-predef.h
+
+/usr/include/stdc-predef.h:
