@@ -1,0 +1,12 @@
+# This is a comment
+prefix=/usr/local
+exec_prefix=${prefix}
+includedir=${prefix}/include
+
+Name: belle-sip 
+Description: A c based implementation of the SIP (RFC 3261)  telephony protocol 
+Requires.private:  
+Version: 1.3.3
+Libs: -L${exec_prefix}/lib -lbellesip
+Libs.private:   -lantlr3c  -lpolarssl
+Cflags: -I${prefix}/include 
