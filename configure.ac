@@ -72,7 +72,7 @@ else
 	CFLAGS="$CFLAGS -g"
 fi
 
-STRICT_OPTIONS=" -Wall -Werror -Wno-error=unknown-pragmas"
+STRICT_OPTIONS=" -Wall"
 
 case "$CC" in
 	*clang*)
