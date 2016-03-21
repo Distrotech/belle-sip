@@ -87,7 +87,7 @@ DIST_COMMON = INSTALL NEWS README AUTHORS ChangeLog \
 	$(top_srcdir)/configure $(am__configure_deps) \
 	$(srcdir)/config.h.in $(srcdir)/belle-sip.pc.in \
 	$(srcdir)/belle-sip.spec.in COPYING compile config.guess \
-	config.sub install-sh missing ltmain.sh
+	config.sub depcomp install-sh missing ltmain.sh
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
@@ -241,6 +241,8 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+BELLESIP_SO_CURRENT = @BELLESIP_SO_CURRENT@
+BELLESIP_SO_VERSION = @BELLESIP_SO_VERSION@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
@@ -277,6 +279,7 @@ LESS_STRICT_OPTIONS = @LESS_STRICT_OPTIONS@
 LIBBELLESIP_CFLAGS = @LIBBELLESIP_CFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LIBS_PRIVATE = @LIBS_PRIVATE@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -286,6 +289,9 @@ MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 NM = @NM@
 NMEDIT = @NMEDIT@
+OBJC = @OBJC@
+OBJCDEPMODE = @OBJCDEPMODE@
+OBJCFLAGS = @OBJCFLAGS@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 OTOOL = @OTOOL@
@@ -302,10 +308,13 @@ PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 RANLIB = @RANLIB@
+REQUIRES_PRIVATE = @REQUIRES_PRIVATE@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRICT_OPTIONS = @STRICT_OPTIONS@
+STRICT_OPTIONS_CC = @STRICT_OPTIONS_CC@
+STRICT_OPTIONS_CXX = @STRICT_OPTIONS_CXX@
 STRIP = @STRIP@
 TLS_CFLAGS = @TLS_CFLAGS@
 TLS_LIBS = @TLS_LIBS@
@@ -321,6 +330,7 @@ ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
+ac_ct_OBJC = @ac_ct_OBJC@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
 am__quote = @am__quote@
@@ -371,9 +381,9 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = include src tester
-EXTRA_DIST = belle-sip.spec
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = belle-sip.pc
+EXTRA_DIST = belle-sip.spec belle-sip.spec.in autogen.sh
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -758,7 +768,7 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-recursive
-all-am: Makefile $(DATA) config.h
+all-am: Makefile $(DATA) config.h all-local
 installdirs: installdirs-recursive
 installdirs-am:
 	for dir in "$(DESTDIR)$(pkgconfigdir)"; do \
@@ -866,7 +876,7 @@ uninstall-am: uninstall-pkgconfigDATA
 
 .MAKE: $(am__recursive_targets) all install-am install-strip
 
-.PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am \
+.PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am all-local \
 	am--refresh check check-am clean clean-cscope clean-generic \
 	clean-libtool cscope cscopelist-am ctags ctags-am dist \
 	dist-all dist-bzip2 dist-gzip dist-lzip dist-shar dist-tarZ \
@@ -883,6 +893,10 @@ uninstall-am: uninstall-pkgconfigDATA
 	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-am uninstall \
 	uninstall-am uninstall-pkgconfigDATA
 
+
+all-local: belle-sip.spec
+
+belle-sip.spec: belle-sip.spec.in
 
 test:
 	cd tester 

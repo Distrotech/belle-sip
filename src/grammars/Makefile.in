@@ -183,6 +183,8 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+BELLESIP_SO_CURRENT = @BELLESIP_SO_CURRENT@
+BELLESIP_SO_VERSION = @BELLESIP_SO_VERSION@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
@@ -219,6 +221,7 @@ LESS_STRICT_OPTIONS = @LESS_STRICT_OPTIONS@
 LIBBELLESIP_CFLAGS = @LIBBELLESIP_CFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LIBS_PRIVATE = @LIBS_PRIVATE@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -228,6 +231,9 @@ MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 NM = @NM@
 NMEDIT = @NMEDIT@
+OBJC = @OBJC@
+OBJCDEPMODE = @OBJCDEPMODE@
+OBJCFLAGS = @OBJCFLAGS@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 OTOOL = @OTOOL@
@@ -244,10 +250,13 @@ PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 RANLIB = @RANLIB@
+REQUIRES_PRIVATE = @REQUIRES_PRIVATE@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRICT_OPTIONS = @STRICT_OPTIONS@
+STRICT_OPTIONS_CC = @STRICT_OPTIONS_CC@
+STRICT_OPTIONS_CXX = @STRICT_OPTIONS_CXX@
 STRIP = @STRIP@
 TLS_CFLAGS = @TLS_CFLAGS@
 TLS_LIBS = @TLS_LIBS@
@@ -263,6 +272,7 @@ ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
+ac_ct_OBJC = @ac_ct_OBJC@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
 am__quote = @am__quote@
@@ -313,16 +323,16 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 noinst_LTLIBRARIES = libbellesip_generated.la
-libbellesip_generated_la_CFLAGS = $(LIBBELLESIP_CFLAGS)  $(ANTLR_CFLAGS) $(STRICT_OPTIONS)
+libbellesip_generated_la_CFLAGS = $(LIBBELLESIP_CFLAGS)  $(ANTLR_CFLAGS) $(STRICT_OPTIONS) $(STRICT_OPTIONS_CC)
 nodist_libbellesip_generated_la_SOURCES = \
 			belle_sip_messageParser.c belle_sip_messageParser.h \
 			belle_sip_messageLexer.c belle_sip_messageLexer.h \
 			belle_sdpParser.c belle_sdpParser.h \
-			belle_sdpLexer.c belle_sdpLexer.h 
+			belle_sdpLexer.c belle_sdpLexer.h
 
-AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/src 
-EXTRA_DIST = belle_sdp.g belle_sip_message.g 
-CLEANFILES = $(nodist_libbellesip_generated_la_SOURCES) *.tokens 
+AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/src
+EXTRA_DIST = belle_sdp.g belle_sip_message.g
+CLEANFILES = $(nodist_libbellesip_generated_la_SOURCES) *.tokens
 all: all-am
 
 .SUFFIXES:
@@ -646,15 +656,17 @@ uninstall-am:
 	tags tags-am uninstall uninstall-am
 
 
-.NOTPARALLEL 	$(builddir)/belle_sip_messageParser.c $(builddir)/belle_sip_messageParser.h \
-				$(builddir)/belle_sip_messageLexer.c $(builddir)/belle_sip_messageLexer.h  : belle_sip_message.g 
-	$(ANTLR)  -make -Xmultithreaded  -fo  $(builddir) $(srcdir)/belle_sip_message.g
+$(builddir)/belle_sip_messageParser.c $(builddir)/belle_sip_messageParser.h \
+				$(builddir)/belle_sip_messageLexer.c $(builddir)/belle_sip_messageLexer.h  : belle_sip_message.g
+	$(ANTLR)  -make -Xmultithreaded -Xconversiontimeout 10000 -fo  $(builddir) $(srcdir)/belle_sip_message.g
 
-.NOTPARALLEL 	$(builddir)/belle_sdpLexer.c \
+$(builddir)/belle_sdpLexer.c \
 				$(builddir)/belle_sdpParser.c \
 				$(builddir)/belle_sdpLexer.h \
 				$(builddir)/belle_sdpParser.h : $(srcdir)/belle_sdp.g
-	$(ANTLR)  -make -Xmultithreaded  -fo $(builddir)  $<
+	$(ANTLR)  -make -Xmultithreaded -Xconversiontimeout 10000 -fo $(builddir)  $<
+
+.NOTPARALLEL:
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

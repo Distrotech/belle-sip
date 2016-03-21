@@ -1,5 +1,8 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Defined when server sockets are enabled */
+#undef ENABLE_SERVER_SOCKETS
+
 /* Define to 1 if you have the <antlr3.h> header file. */
 #undef HAVE_ANTLR3_H
 

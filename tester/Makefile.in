@@ -81,7 +81,9 @@ host_triplet = @host@
 target_triplet = @target@
 @ENABLE_TESTS_TRUE@noinst_PROGRAMS = belle_sip_tester$(EXEEXT) \
 @ENABLE_TESTS_TRUE@	belle_sip_object_describe$(EXEEXT) \
-@ENABLE_TESTS_TRUE@	belle_sip_parse$(EXEEXT)
+@ENABLE_TESTS_TRUE@	belle_sip_parse$(EXEEXT) \
+@ENABLE_TESTS_TRUE@	belle_http_get$(EXEEXT) \
+@ENABLE_TESTS_TRUE@	belle_sip_resolve$(EXEEXT)
 subdir = tester
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp
@@ -97,6 +99,16 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
+am__belle_http_get_SOURCES_DIST = get.c
+@ENABLE_TESTS_TRUE@am_belle_http_get_OBJECTS = get.$(OBJEXT)
+belle_http_get_OBJECTS = $(am_belle_http_get_OBJECTS)
+belle_http_get_LDADD = $(LDADD)
+@ENABLE_TESTS_TRUE@belle_http_get_DEPENDENCIES =  \
+@ENABLE_TESTS_TRUE@	$(top_builddir)/src/libbellesip.la
+AM_V_lt = $(am__v_lt_@AM_V@)
+am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
+am__v_lt_0 = --silent
+am__v_lt_1 = 
 am__belle_sip_object_describe_SOURCES_DIST = describe.c
 @ENABLE_TESTS_TRUE@am_belle_sip_object_describe_OBJECTS =  \
 @ENABLE_TESTS_TRUE@	describe.$(OBJEXT)
@@ -105,38 +117,43 @@ belle_sip_object_describe_OBJECTS =  \
 belle_sip_object_describe_LDADD = $(LDADD)
 @ENABLE_TESTS_TRUE@belle_sip_object_describe_DEPENDENCIES =  \
 @ENABLE_TESTS_TRUE@	$(top_builddir)/src/libbellesip.la
-AM_V_lt = $(am__v_lt_@AM_V@)
-am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
-am__v_lt_0 = --silent
-am__v_lt_1 = 
 am__belle_sip_parse_SOURCES_DIST = parse.c
 @ENABLE_TESTS_TRUE@am_belle_sip_parse_OBJECTS = parse.$(OBJEXT)
 belle_sip_parse_OBJECTS = $(am_belle_sip_parse_OBJECTS)
 belle_sip_parse_LDADD = $(LDADD)
 @ENABLE_TESTS_TRUE@belle_sip_parse_DEPENDENCIES =  \
 @ENABLE_TESTS_TRUE@	$(top_builddir)/src/libbellesip.la
-am__belle_sip_tester_SOURCES_DIST = belle_sip_tester.c \
-	belle_sip_tester.h belle_sdp_tester.c belle_sip_uri_tester.c \
-	belle_sip_headers_tester.c belle_sip_message_tester.c \
-	auth_helper_tester.c cast_test.c belle_sip_register_tester.c \
-	belle_sip_dialog_tester.c belle_sip_refresher_tester.c \
-	belle_sip_resolver_tester.c belle_sip_core_tester.c \
-	belle_generic_uri_tester.c register_tester.h \
-	belle_http_tester.c
-@ENABLE_TESTS_TRUE@am_belle_sip_tester_OBJECTS = belle_sip_tester-belle_sip_tester.$(OBJEXT) \
+am__belle_sip_resolve_SOURCES_DIST = resolve.c
+@ENABLE_TESTS_TRUE@am_belle_sip_resolve_OBJECTS = resolve.$(OBJEXT)
+belle_sip_resolve_OBJECTS = $(am_belle_sip_resolve_OBJECTS)
+belle_sip_resolve_LDADD = $(LDADD)
+@ENABLE_TESTS_TRUE@belle_sip_resolve_DEPENDENCIES =  \
+@ENABLE_TESTS_TRUE@	$(top_builddir)/src/libbellesip.la
+am__belle_sip_tester_SOURCES_DIST = auth_helper_tester.c \
+	belle_generic_uri_tester.c belle_http_tester.c \
+	belle_sdp_tester.c belle_sip_core_tester.c \
+	belle_sip_dialog_tester.c belle_sip_headers_tester.c \
+	belle_sip_message_tester.c belle_sip_refresher_tester.c \
+	belle_sip_register_tester.c belle_sip_resolver_tester.c \
+	belle_sip_tester.c belle_sip_tester.h belle_sip_uri_tester.c \
+	cast_test.c register_tester.h common/bc_tester_utils.c \
+	common/bc_tester_utils.h
+am__dirstamp = $(am__leading_dot)dirstamp
+@ENABLE_TESTS_TRUE@am_belle_sip_tester_OBJECTS = belle_sip_tester-auth_helper_tester.$(OBJEXT) \
+@ENABLE_TESTS_TRUE@	belle_sip_tester-belle_generic_uri_tester.$(OBJEXT) \
+@ENABLE_TESTS_TRUE@	belle_sip_tester-belle_http_tester.$(OBJEXT) \
 @ENABLE_TESTS_TRUE@	belle_sip_tester-belle_sdp_tester.$(OBJEXT) \
-@ENABLE_TESTS_TRUE@	belle_sip_tester-belle_sip_uri_tester.$(OBJEXT) \
+@ENABLE_TESTS_TRUE@	belle_sip_tester-belle_sip_core_tester.$(OBJEXT) \
+@ENABLE_TESTS_TRUE@	belle_sip_tester-belle_sip_dialog_tester.$(OBJEXT) \
 @ENABLE_TESTS_TRUE@	belle_sip_tester-belle_sip_headers_tester.$(OBJEXT) \
 @ENABLE_TESTS_TRUE@	belle_sip_tester-belle_sip_message_tester.$(OBJEXT) \
-@ENABLE_TESTS_TRUE@	belle_sip_tester-auth_helper_tester.$(OBJEXT) \
-@ENABLE_TESTS_TRUE@	belle_sip_tester-cast_test.$(OBJEXT) \
-@ENABLE_TESTS_TRUE@	belle_sip_tester-belle_sip_register_tester.$(OBJEXT) \
-@ENABLE_TESTS_TRUE@	belle_sip_tester-belle_sip_dialog_tester.$(OBJEXT) \
 @ENABLE_TESTS_TRUE@	belle_sip_tester-belle_sip_refresher_tester.$(OBJEXT) \
+@ENABLE_TESTS_TRUE@	belle_sip_tester-belle_sip_register_tester.$(OBJEXT) \
 @ENABLE_TESTS_TRUE@	belle_sip_tester-belle_sip_resolver_tester.$(OBJEXT) \
-@ENABLE_TESTS_TRUE@	belle_sip_tester-belle_sip_core_tester.$(OBJEXT) \
-@ENABLE_TESTS_TRUE@	belle_sip_tester-belle_generic_uri_tester.$(OBJEXT) \
-@ENABLE_TESTS_TRUE@	belle_sip_tester-belle_http_tester.$(OBJEXT)
+@ENABLE_TESTS_TRUE@	belle_sip_tester-belle_sip_tester.$(OBJEXT) \
+@ENABLE_TESTS_TRUE@	belle_sip_tester-belle_sip_uri_tester.$(OBJEXT) \
+@ENABLE_TESTS_TRUE@	belle_sip_tester-cast_test.$(OBJEXT) \
+@ENABLE_TESTS_TRUE@	common/belle_sip_tester-bc_tester_utils.$(OBJEXT)
 belle_sip_tester_OBJECTS = $(am_belle_sip_tester_OBJECTS)
 belle_sip_tester_LDADD = $(LDADD)
 @ENABLE_TESTS_TRUE@belle_sip_tester_DEPENDENCIES =  \
@@ -179,10 +196,14 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(belle_sip_object_describe_SOURCES) \
-	$(belle_sip_parse_SOURCES) $(belle_sip_tester_SOURCES)
-DIST_SOURCES = $(am__belle_sip_object_describe_SOURCES_DIST) \
+SOURCES = $(belle_http_get_SOURCES) \
+	$(belle_sip_object_describe_SOURCES) \
+	$(belle_sip_parse_SOURCES) $(belle_sip_resolve_SOURCES) \
+	$(belle_sip_tester_SOURCES)
+DIST_SOURCES = $(am__belle_http_get_SOURCES_DIST) \
+	$(am__belle_sip_object_describe_SOURCES_DIST) \
 	$(am__belle_sip_parse_SOURCES_DIST) \
+	$(am__belle_sip_resolve_SOURCES_DIST) \
 	$(am__belle_sip_tester_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
@@ -221,6 +242,8 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+BELLESIP_SO_CURRENT = @BELLESIP_SO_CURRENT@
+BELLESIP_SO_VERSION = @BELLESIP_SO_VERSION@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
@@ -257,6 +280,7 @@ LESS_STRICT_OPTIONS = @LESS_STRICT_OPTIONS@
 LIBBELLESIP_CFLAGS = @LIBBELLESIP_CFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LIBS_PRIVATE = @LIBS_PRIVATE@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -266,6 +290,9 @@ MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 NM = @NM@
 NMEDIT = @NMEDIT@
+OBJC = @OBJC@
+OBJCDEPMODE = @OBJCDEPMODE@
+OBJCFLAGS = @OBJCFLAGS@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 OTOOL = @OTOOL@
@@ -282,10 +309,13 @@ PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 RANLIB = @RANLIB@
+REQUIRES_PRIVATE = @REQUIRES_PRIVATE@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRICT_OPTIONS = @STRICT_OPTIONS@
+STRICT_OPTIONS_CC = @STRICT_OPTIONS_CC@
+STRICT_OPTIONS_CXX = @STRICT_OPTIONS_CXX@
 STRIP = @STRIP@
 TLS_CFLAGS = @TLS_CFLAGS@
 TLS_LIBS = @TLS_LIBS@
@@ -301,6 +331,7 @@ ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
+ac_ct_OBJC = @ac_ct_OBJC@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
 am__quote = @am__quote@
@@ -350,30 +381,40 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-@ENABLE_TESTS_TRUE@belle_sip_tester_SOURCES = belle_sip_tester.c belle_sip_tester.h\
+@ENABLE_TESTS_TRUE@belle_sip_tester_SOURCES = \
+@ENABLE_TESTS_TRUE@				auth_helper_tester.c \
+@ENABLE_TESTS_TRUE@				belle_generic_uri_tester.c \
+@ENABLE_TESTS_TRUE@				belle_http_tester.c \
 @ENABLE_TESTS_TRUE@				belle_sdp_tester.c \
-@ENABLE_TESTS_TRUE@				belle_sip_uri_tester.c \
+@ENABLE_TESTS_TRUE@				belle_sip_core_tester.c \
+@ENABLE_TESTS_TRUE@				belle_sip_dialog_tester.c \
 @ENABLE_TESTS_TRUE@				belle_sip_headers_tester.c \
 @ENABLE_TESTS_TRUE@				belle_sip_message_tester.c \
-@ENABLE_TESTS_TRUE@				auth_helper_tester.c \
-@ENABLE_TESTS_TRUE@				cast_test.c \
-@ENABLE_TESTS_TRUE@				belle_sip_register_tester.c \
-@ENABLE_TESTS_TRUE@				belle_sip_dialog_tester.c \
 @ENABLE_TESTS_TRUE@				belle_sip_refresher_tester.c \
+@ENABLE_TESTS_TRUE@				belle_sip_register_tester.c \
 @ENABLE_TESTS_TRUE@				belle_sip_resolver_tester.c \
-@ENABLE_TESTS_TRUE@				belle_sip_core_tester.c \
-@ENABLE_TESTS_TRUE@				belle_generic_uri_tester.c \
+@ENABLE_TESTS_TRUE@				belle_sip_tester.c belle_sip_tester.h\
+@ENABLE_TESTS_TRUE@				belle_sip_uri_tester.c \
+@ENABLE_TESTS_TRUE@				cast_test.c \
 @ENABLE_TESTS_TRUE@				register_tester.h \
-@ENABLE_TESTS_TRUE@				belle_http_tester.c
+@ENABLE_TESTS_TRUE@				common/bc_tester_utils.c common/bc_tester_utils.h
 
-@ENABLE_TESTS_TRUE@belle_sip_tester_CFLAGS = $(CUNIT_CFLAGS) $(STRICT_OPTIONS) $(TLS_CFLAGS)
+@ENABLE_TESTS_TRUE@belle_sip_tester_CFLAGS = \
+@ENABLE_TESTS_TRUE@	-DBC_CONFIG_FILE=\"config.h\" \
+@ENABLE_TESTS_TRUE@	$(CUNIT_CFLAGS) \
+@ENABLE_TESTS_TRUE@	$(STRICT_OPTIONS) \
+@ENABLE_TESTS_TRUE@	$(STRICT_OPTIONS_CC) \
+@ENABLE_TESTS_TRUE@	$(TLS_CFLAGS)
+
 @ENABLE_TESTS_TRUE@belle_sip_tester_LDFLAGS = $(CUNIT_LIBS) $(AM_LDFLAGS)
 @ENABLE_TESTS_TRUE@belle_sip_object_describe_SOURCES = describe.c
 @ENABLE_TESTS_TRUE@belle_sip_parse_SOURCES = parse.c
-@ENABLE_TESTS_TRUE@AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/src
-@ENABLE_TESTS_TRUE@LDADD = $(top_builddir)/src/libbellesip.la 
-@ENABLE_TESTS_TRUE@AM_LDFLAGS = -no-undefined -export-dynamic 
-@ENABLE_TESTS_TRUE@AM_CFLAGS = $(STRICT_OPTIONS) 
+@ENABLE_TESTS_TRUE@belle_http_get_SOURCES = get.c
+@ENABLE_TESTS_TRUE@belle_sip_resolve_SOURCES = resolve.c
+@ENABLE_TESTS_TRUE@AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/src -I$(top_srcdir)/tester/common
+@ENABLE_TESTS_TRUE@LDADD = $(top_builddir)/src/libbellesip.la
+@ENABLE_TESTS_TRUE@AM_LDFLAGS = -no-undefined -export-dynamic
+@ENABLE_TESTS_TRUE@AM_CFLAGS = $(STRICT_OPTIONS) $(STRICT_OPTIONS_CC)
 all: all-am
 
 .SUFFIXES:
@@ -418,6 +459,10 @@ clean-noinstPROGRAMS:
 	echo " rm -f" $$list; \
 	rm -f $$list
 
+belle_http_get$(EXEEXT): $(belle_http_get_OBJECTS) $(belle_http_get_DEPENDENCIES) $(EXTRA_belle_http_get_DEPENDENCIES) 
+	@rm -f belle_http_get$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(belle_http_get_OBJECTS) $(belle_http_get_LDADD) $(LIBS)
+
 belle_sip_object_describe$(EXEEXT): $(belle_sip_object_describe_OBJECTS) $(belle_sip_object_describe_DEPENDENCIES) $(EXTRA_belle_sip_object_describe_DEPENDENCIES) 
 	@rm -f belle_sip_object_describe$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(belle_sip_object_describe_OBJECTS) $(belle_sip_object_describe_LDADD) $(LIBS)
@@ -426,12 +471,25 @@ belle_sip_parse$(EXEEXT): $(belle_sip_parse_OBJECTS) $(belle_sip_parse_DEPENDENC
 	@rm -f belle_sip_parse$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(belle_sip_parse_OBJECTS) $(belle_sip_parse_LDADD) $(LIBS)
 
+belle_sip_resolve$(EXEEXT): $(belle_sip_resolve_OBJECTS) $(belle_sip_resolve_DEPENDENCIES) $(EXTRA_belle_sip_resolve_DEPENDENCIES) 
+	@rm -f belle_sip_resolve$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(belle_sip_resolve_OBJECTS) $(belle_sip_resolve_LDADD) $(LIBS)
+common/$(am__dirstamp):
+	@$(MKDIR_P) common
+	@: > common/$(am__dirstamp)
+common/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) common/$(DEPDIR)
+	@: > common/$(DEPDIR)/$(am__dirstamp)
+common/belle_sip_tester-bc_tester_utils.$(OBJEXT):  \
+	common/$(am__dirstamp) common/$(DEPDIR)/$(am__dirstamp)
+
 belle_sip_tester$(EXEEXT): $(belle_sip_tester_OBJECTS) $(belle_sip_tester_DEPENDENCIES) $(EXTRA_belle_sip_tester_DEPENDENCIES) 
 	@rm -f belle_sip_tester$(EXEEXT)
 	$(AM_V_CCLD)$(belle_sip_tester_LINK) $(belle_sip_tester_OBJECTS) $(belle_sip_tester_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f common/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -451,7 +509,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/belle_sip_tester-belle_sip_uri_tester.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/belle_sip_tester-cast_test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/describe.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/get.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/resolve.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/belle_sip_tester-bc_tester_utils.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -477,19 +538,47 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
 
-belle_sip_tester-belle_sip_tester.o: belle_sip_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_tester.Tpo -c -o belle_sip_tester-belle_sip_tester.o `test -f 'belle_sip_tester.c' || echo '$(srcdir)/'`belle_sip_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_tester.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_tester.c' object='belle_sip_tester-belle_sip_tester.o' libtool=no @AMDEPBACKSLASH@
+belle_sip_tester-auth_helper_tester.o: auth_helper_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-auth_helper_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-auth_helper_tester.Tpo -c -o belle_sip_tester-auth_helper_tester.o `test -f 'auth_helper_tester.c' || echo '$(srcdir)/'`auth_helper_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-auth_helper_tester.Tpo $(DEPDIR)/belle_sip_tester-auth_helper_tester.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='auth_helper_tester.c' object='belle_sip_tester-auth_helper_tester.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_tester.o `test -f 'belle_sip_tester.c' || echo '$(srcdir)/'`belle_sip_tester.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-auth_helper_tester.o `test -f 'auth_helper_tester.c' || echo '$(srcdir)/'`auth_helper_tester.c
 
-belle_sip_tester-belle_sip_tester.obj: belle_sip_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_tester.obj -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_tester.Tpo -c -o belle_sip_tester-belle_sip_tester.obj `if test -f 'belle_sip_tester.c'; then $(CYGPATH_W) 'belle_sip_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_tester.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_tester.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_tester.c' object='belle_sip_tester-belle_sip_tester.obj' libtool=no @AMDEPBACKSLASH@
+belle_sip_tester-auth_helper_tester.obj: auth_helper_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-auth_helper_tester.obj -MD -MP -MF $(DEPDIR)/belle_sip_tester-auth_helper_tester.Tpo -c -o belle_sip_tester-auth_helper_tester.obj `if test -f 'auth_helper_tester.c'; then $(CYGPATH_W) 'auth_helper_tester.c'; else $(CYGPATH_W) '$(srcdir)/auth_helper_tester.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-auth_helper_tester.Tpo $(DEPDIR)/belle_sip_tester-auth_helper_tester.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='auth_helper_tester.c' object='belle_sip_tester-auth_helper_tester.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_tester.obj `if test -f 'belle_sip_tester.c'; then $(CYGPATH_W) 'belle_sip_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_tester.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-auth_helper_tester.obj `if test -f 'auth_helper_tester.c'; then $(CYGPATH_W) 'auth_helper_tester.c'; else $(CYGPATH_W) '$(srcdir)/auth_helper_tester.c'; fi`
+
+belle_sip_tester-belle_generic_uri_tester.o: belle_generic_uri_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_generic_uri_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_generic_uri_tester.Tpo -c -o belle_sip_tester-belle_generic_uri_tester.o `test -f 'belle_generic_uri_tester.c' || echo '$(srcdir)/'`belle_generic_uri_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_generic_uri_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_generic_uri_tester.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_generic_uri_tester.c' object='belle_sip_tester-belle_generic_uri_tester.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_generic_uri_tester.o `test -f 'belle_generic_uri_tester.c' || echo '$(srcdir)/'`belle_generic_uri_tester.c
+
+belle_sip_tester-belle_generic_uri_tester.obj: belle_generic_uri_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_generic_uri_tester.obj -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_generic_uri_tester.Tpo -c -o belle_sip_tester-belle_generic_uri_tester.obj `if test -f 'belle_generic_uri_tester.c'; then $(CYGPATH_W) 'belle_generic_uri_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_generic_uri_tester.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_generic_uri_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_generic_uri_tester.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_generic_uri_tester.c' object='belle_sip_tester-belle_generic_uri_tester.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_generic_uri_tester.obj `if test -f 'belle_generic_uri_tester.c'; then $(CYGPATH_W) 'belle_generic_uri_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_generic_uri_tester.c'; fi`
+
+belle_sip_tester-belle_http_tester.o: belle_http_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_http_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_http_tester.Tpo -c -o belle_sip_tester-belle_http_tester.o `test -f 'belle_http_tester.c' || echo '$(srcdir)/'`belle_http_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_http_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_http_tester.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_http_tester.c' object='belle_sip_tester-belle_http_tester.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_http_tester.o `test -f 'belle_http_tester.c' || echo '$(srcdir)/'`belle_http_tester.c
+
+belle_sip_tester-belle_http_tester.obj: belle_http_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_http_tester.obj -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_http_tester.Tpo -c -o belle_sip_tester-belle_http_tester.obj `if test -f 'belle_http_tester.c'; then $(CYGPATH_W) 'belle_http_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_http_tester.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_http_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_http_tester.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_http_tester.c' object='belle_sip_tester-belle_http_tester.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_http_tester.obj `if test -f 'belle_http_tester.c'; then $(CYGPATH_W) 'belle_http_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_http_tester.c'; fi`
 
 belle_sip_tester-belle_sdp_tester.o: belle_sdp_tester.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sdp_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sdp_tester.Tpo -c -o belle_sip_tester-belle_sdp_tester.o `test -f 'belle_sdp_tester.c' || echo '$(srcdir)/'`belle_sdp_tester.c
@@ -505,19 +594,33 @@ belle_sip_tester-belle_sdp_tester.obj: belle_sdp_tester.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sdp_tester.obj `if test -f 'belle_sdp_tester.c'; then $(CYGPATH_W) 'belle_sdp_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sdp_tester.c'; fi`
 
-belle_sip_tester-belle_sip_uri_tester.o: belle_sip_uri_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_uri_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_uri_tester.Tpo -c -o belle_sip_tester-belle_sip_uri_tester.o `test -f 'belle_sip_uri_tester.c' || echo '$(srcdir)/'`belle_sip_uri_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_uri_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_uri_tester.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_uri_tester.c' object='belle_sip_tester-belle_sip_uri_tester.o' libtool=no @AMDEPBACKSLASH@
+belle_sip_tester-belle_sip_core_tester.o: belle_sip_core_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_core_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_core_tester.Tpo -c -o belle_sip_tester-belle_sip_core_tester.o `test -f 'belle_sip_core_tester.c' || echo '$(srcdir)/'`belle_sip_core_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_core_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_core_tester.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_core_tester.c' object='belle_sip_tester-belle_sip_core_tester.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_uri_tester.o `test -f 'belle_sip_uri_tester.c' || echo '$(srcdir)/'`belle_sip_uri_tester.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_core_tester.o `test -f 'belle_sip_core_tester.c' || echo '$(srcdir)/'`belle_sip_core_tester.c
 
-belle_sip_tester-belle_sip_uri_tester.obj: belle_sip_uri_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_uri_tester.obj -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_uri_tester.Tpo -c -o belle_sip_tester-belle_sip_uri_tester.obj `if test -f 'belle_sip_uri_tester.c'; then $(CYGPATH_W) 'belle_sip_uri_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_uri_tester.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_uri_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_uri_tester.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_uri_tester.c' object='belle_sip_tester-belle_sip_uri_tester.obj' libtool=no @AMDEPBACKSLASH@
+belle_sip_tester-belle_sip_core_tester.obj: belle_sip_core_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_core_tester.obj -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_core_tester.Tpo -c -o belle_sip_tester-belle_sip_core_tester.obj `if test -f 'belle_sip_core_tester.c'; then $(CYGPATH_W) 'belle_sip_core_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_core_tester.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_core_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_core_tester.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_core_tester.c' object='belle_sip_tester-belle_sip_core_tester.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_uri_tester.obj `if test -f 'belle_sip_uri_tester.c'; then $(CYGPATH_W) 'belle_sip_uri_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_uri_tester.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_core_tester.obj `if test -f 'belle_sip_core_tester.c'; then $(CYGPATH_W) 'belle_sip_core_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_core_tester.c'; fi`
+
+belle_sip_tester-belle_sip_dialog_tester.o: belle_sip_dialog_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_dialog_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_dialog_tester.Tpo -c -o belle_sip_tester-belle_sip_dialog_tester.o `test -f 'belle_sip_dialog_tester.c' || echo '$(srcdir)/'`belle_sip_dialog_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_dialog_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_dialog_tester.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_dialog_tester.c' object='belle_sip_tester-belle_sip_dialog_tester.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_dialog_tester.o `test -f 'belle_sip_dialog_tester.c' || echo '$(srcdir)/'`belle_sip_dialog_tester.c
+
+belle_sip_tester-belle_sip_dialog_tester.obj: belle_sip_dialog_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_dialog_tester.obj -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_dialog_tester.Tpo -c -o belle_sip_tester-belle_sip_dialog_tester.obj `if test -f 'belle_sip_dialog_tester.c'; then $(CYGPATH_W) 'belle_sip_dialog_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_dialog_tester.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_dialog_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_dialog_tester.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_dialog_tester.c' object='belle_sip_tester-belle_sip_dialog_tester.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_dialog_tester.obj `if test -f 'belle_sip_dialog_tester.c'; then $(CYGPATH_W) 'belle_sip_dialog_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_dialog_tester.c'; fi`
 
 belle_sip_tester-belle_sip_headers_tester.o: belle_sip_headers_tester.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_headers_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_headers_tester.Tpo -c -o belle_sip_tester-belle_sip_headers_tester.o `test -f 'belle_sip_headers_tester.c' || echo '$(srcdir)/'`belle_sip_headers_tester.c
@@ -547,33 +650,19 @@ belle_sip_tester-belle_sip_message_tester.obj: belle_sip_message_tester.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_message_tester.obj `if test -f 'belle_sip_message_tester.c'; then $(CYGPATH_W) 'belle_sip_message_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_message_tester.c'; fi`
 
-belle_sip_tester-auth_helper_tester.o: auth_helper_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-auth_helper_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-auth_helper_tester.Tpo -c -o belle_sip_tester-auth_helper_tester.o `test -f 'auth_helper_tester.c' || echo '$(srcdir)/'`auth_helper_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-auth_helper_tester.Tpo $(DEPDIR)/belle_sip_tester-auth_helper_tester.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='auth_helper_tester.c' object='belle_sip_tester-auth_helper_tester.o' libtool=no @AMDEPBACKSLASH@
+belle_sip_tester-belle_sip_refresher_tester.o: belle_sip_refresher_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_refresher_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_refresher_tester.Tpo -c -o belle_sip_tester-belle_sip_refresher_tester.o `test -f 'belle_sip_refresher_tester.c' || echo '$(srcdir)/'`belle_sip_refresher_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_refresher_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_refresher_tester.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_refresher_tester.c' object='belle_sip_tester-belle_sip_refresher_tester.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-auth_helper_tester.o `test -f 'auth_helper_tester.c' || echo '$(srcdir)/'`auth_helper_tester.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_refresher_tester.o `test -f 'belle_sip_refresher_tester.c' || echo '$(srcdir)/'`belle_sip_refresher_tester.c
 
-belle_sip_tester-auth_helper_tester.obj: auth_helper_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-auth_helper_tester.obj -MD -MP -MF $(DEPDIR)/belle_sip_tester-auth_helper_tester.Tpo -c -o belle_sip_tester-auth_helper_tester.obj `if test -f 'auth_helper_tester.c'; then $(CYGPATH_W) 'auth_helper_tester.c'; else $(CYGPATH_W) '$(srcdir)/auth_helper_tester.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-auth_helper_tester.Tpo $(DEPDIR)/belle_sip_tester-auth_helper_tester.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='auth_helper_tester.c' object='belle_sip_tester-auth_helper_tester.obj' libtool=no @AMDEPBACKSLASH@
+belle_sip_tester-belle_sip_refresher_tester.obj: belle_sip_refresher_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_refresher_tester.obj -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_refresher_tester.Tpo -c -o belle_sip_tester-belle_sip_refresher_tester.obj `if test -f 'belle_sip_refresher_tester.c'; then $(CYGPATH_W) 'belle_sip_refresher_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_refresher_tester.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_refresher_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_refresher_tester.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_refresher_tester.c' object='belle_sip_tester-belle_sip_refresher_tester.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-auth_helper_tester.obj `if test -f 'auth_helper_tester.c'; then $(CYGPATH_W) 'auth_helper_tester.c'; else $(CYGPATH_W) '$(srcdir)/auth_helper_tester.c'; fi`
-
-belle_sip_tester-cast_test.o: cast_test.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-cast_test.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-cast_test.Tpo -c -o belle_sip_tester-cast_test.o `test -f 'cast_test.c' || echo '$(srcdir)/'`cast_test.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-cast_test.Tpo $(DEPDIR)/belle_sip_tester-cast_test.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cast_test.c' object='belle_sip_tester-cast_test.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-cast_test.o `test -f 'cast_test.c' || echo '$(srcdir)/'`cast_test.c
-
-belle_sip_tester-cast_test.obj: cast_test.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-cast_test.obj -MD -MP -MF $(DEPDIR)/belle_sip_tester-cast_test.Tpo -c -o belle_sip_tester-cast_test.obj `if test -f 'cast_test.c'; then $(CYGPATH_W) 'cast_test.c'; else $(CYGPATH_W) '$(srcdir)/cast_test.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-cast_test.Tpo $(DEPDIR)/belle_sip_tester-cast_test.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cast_test.c' object='belle_sip_tester-cast_test.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-cast_test.obj `if test -f 'cast_test.c'; then $(CYGPATH_W) 'cast_test.c'; else $(CYGPATH_W) '$(srcdir)/cast_test.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_refresher_tester.obj `if test -f 'belle_sip_refresher_tester.c'; then $(CYGPATH_W) 'belle_sip_refresher_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_refresher_tester.c'; fi`
 
 belle_sip_tester-belle_sip_register_tester.o: belle_sip_register_tester.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_register_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_register_tester.Tpo -c -o belle_sip_tester-belle_sip_register_tester.o `test -f 'belle_sip_register_tester.c' || echo '$(srcdir)/'`belle_sip_register_tester.c
@@ -589,34 +678,6 @@ belle_sip_tester-belle_sip_register_tester.obj: belle_sip_register_tester.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_register_tester.obj `if test -f 'belle_sip_register_tester.c'; then $(CYGPATH_W) 'belle_sip_register_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_register_tester.c'; fi`
 
-belle_sip_tester-belle_sip_dialog_tester.o: belle_sip_dialog_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_dialog_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_dialog_tester.Tpo -c -o belle_sip_tester-belle_sip_dialog_tester.o `test -f 'belle_sip_dialog_tester.c' || echo '$(srcdir)/'`belle_sip_dialog_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_dialog_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_dialog_tester.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_dialog_tester.c' object='belle_sip_tester-belle_sip_dialog_tester.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_dialog_tester.o `test -f 'belle_sip_dialog_tester.c' || echo '$(srcdir)/'`belle_sip_dialog_tester.c
-
-belle_sip_tester-belle_sip_dialog_tester.obj: belle_sip_dialog_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_dialog_tester.obj -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_dialog_tester.Tpo -c -o belle_sip_tester-belle_sip_dialog_tester.obj `if test -f 'belle_sip_dialog_tester.c'; then $(CYGPATH_W) 'belle_sip_dialog_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_dialog_tester.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_dialog_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_dialog_tester.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_dialog_tester.c' object='belle_sip_tester-belle_sip_dialog_tester.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_dialog_tester.obj `if test -f 'belle_sip_dialog_tester.c'; then $(CYGPATH_W) 'belle_sip_dialog_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_dialog_tester.c'; fi`
-
-belle_sip_tester-belle_sip_refresher_tester.o: belle_sip_refresher_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_refresher_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_refresher_tester.Tpo -c -o belle_sip_tester-belle_sip_refresher_tester.o `test -f 'belle_sip_refresher_tester.c' || echo '$(srcdir)/'`belle_sip_refresher_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_refresher_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_refresher_tester.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_refresher_tester.c' object='belle_sip_tester-belle_sip_refresher_tester.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_refresher_tester.o `test -f 'belle_sip_refresher_tester.c' || echo '$(srcdir)/'`belle_sip_refresher_tester.c
-
-belle_sip_tester-belle_sip_refresher_tester.obj: belle_sip_refresher_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_refresher_tester.obj -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_refresher_tester.Tpo -c -o belle_sip_tester-belle_sip_refresher_tester.obj `if test -f 'belle_sip_refresher_tester.c'; then $(CYGPATH_W) 'belle_sip_refresher_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_refresher_tester.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_refresher_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_refresher_tester.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_refresher_tester.c' object='belle_sip_tester-belle_sip_refresher_tester.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_refresher_tester.obj `if test -f 'belle_sip_refresher_tester.c'; then $(CYGPATH_W) 'belle_sip_refresher_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_refresher_tester.c'; fi`
-
 belle_sip_tester-belle_sip_resolver_tester.o: belle_sip_resolver_tester.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_resolver_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_resolver_tester.Tpo -c -o belle_sip_tester-belle_sip_resolver_tester.o `test -f 'belle_sip_resolver_tester.c' || echo '$(srcdir)/'`belle_sip_resolver_tester.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_resolver_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_resolver_tester.Po
@@ -631,47 +692,61 @@ belle_sip_tester-belle_sip_resolver_tester.obj: belle_sip_resolver_tester.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_resolver_tester.obj `if test -f 'belle_sip_resolver_tester.c'; then $(CYGPATH_W) 'belle_sip_resolver_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_resolver_tester.c'; fi`
 
-belle_sip_tester-belle_sip_core_tester.o: belle_sip_core_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_core_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_core_tester.Tpo -c -o belle_sip_tester-belle_sip_core_tester.o `test -f 'belle_sip_core_tester.c' || echo '$(srcdir)/'`belle_sip_core_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_core_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_core_tester.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_core_tester.c' object='belle_sip_tester-belle_sip_core_tester.o' libtool=no @AMDEPBACKSLASH@
+belle_sip_tester-belle_sip_tester.o: belle_sip_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_tester.Tpo -c -o belle_sip_tester-belle_sip_tester.o `test -f 'belle_sip_tester.c' || echo '$(srcdir)/'`belle_sip_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_tester.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_tester.c' object='belle_sip_tester-belle_sip_tester.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_core_tester.o `test -f 'belle_sip_core_tester.c' || echo '$(srcdir)/'`belle_sip_core_tester.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_tester.o `test -f 'belle_sip_tester.c' || echo '$(srcdir)/'`belle_sip_tester.c
 
-belle_sip_tester-belle_sip_core_tester.obj: belle_sip_core_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_core_tester.obj -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_core_tester.Tpo -c -o belle_sip_tester-belle_sip_core_tester.obj `if test -f 'belle_sip_core_tester.c'; then $(CYGPATH_W) 'belle_sip_core_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_core_tester.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_core_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_core_tester.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_core_tester.c' object='belle_sip_tester-belle_sip_core_tester.obj' libtool=no @AMDEPBACKSLASH@
+belle_sip_tester-belle_sip_tester.obj: belle_sip_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_tester.obj -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_tester.Tpo -c -o belle_sip_tester-belle_sip_tester.obj `if test -f 'belle_sip_tester.c'; then $(CYGPATH_W) 'belle_sip_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_tester.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_tester.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_tester.c' object='belle_sip_tester-belle_sip_tester.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_core_tester.obj `if test -f 'belle_sip_core_tester.c'; then $(CYGPATH_W) 'belle_sip_core_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_core_tester.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_tester.obj `if test -f 'belle_sip_tester.c'; then $(CYGPATH_W) 'belle_sip_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_tester.c'; fi`
 
-belle_sip_tester-belle_generic_uri_tester.o: belle_generic_uri_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_generic_uri_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_generic_uri_tester.Tpo -c -o belle_sip_tester-belle_generic_uri_tester.o `test -f 'belle_generic_uri_tester.c' || echo '$(srcdir)/'`belle_generic_uri_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_generic_uri_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_generic_uri_tester.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_generic_uri_tester.c' object='belle_sip_tester-belle_generic_uri_tester.o' libtool=no @AMDEPBACKSLASH@
+belle_sip_tester-belle_sip_uri_tester.o: belle_sip_uri_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_uri_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_uri_tester.Tpo -c -o belle_sip_tester-belle_sip_uri_tester.o `test -f 'belle_sip_uri_tester.c' || echo '$(srcdir)/'`belle_sip_uri_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_uri_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_uri_tester.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_uri_tester.c' object='belle_sip_tester-belle_sip_uri_tester.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_generic_uri_tester.o `test -f 'belle_generic_uri_tester.c' || echo '$(srcdir)/'`belle_generic_uri_tester.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_uri_tester.o `test -f 'belle_sip_uri_tester.c' || echo '$(srcdir)/'`belle_sip_uri_tester.c
 
-belle_sip_tester-belle_generic_uri_tester.obj: belle_generic_uri_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_generic_uri_tester.obj -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_generic_uri_tester.Tpo -c -o belle_sip_tester-belle_generic_uri_tester.obj `if test -f 'belle_generic_uri_tester.c'; then $(CYGPATH_W) 'belle_generic_uri_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_generic_uri_tester.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_generic_uri_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_generic_uri_tester.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_generic_uri_tester.c' object='belle_sip_tester-belle_generic_uri_tester.obj' libtool=no @AMDEPBACKSLASH@
+belle_sip_tester-belle_sip_uri_tester.obj: belle_sip_uri_tester.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_sip_uri_tester.obj -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_sip_uri_tester.Tpo -c -o belle_sip_tester-belle_sip_uri_tester.obj `if test -f 'belle_sip_uri_tester.c'; then $(CYGPATH_W) 'belle_sip_uri_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_uri_tester.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_sip_uri_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_sip_uri_tester.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_sip_uri_tester.c' object='belle_sip_tester-belle_sip_uri_tester.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_generic_uri_tester.obj `if test -f 'belle_generic_uri_tester.c'; then $(CYGPATH_W) 'belle_generic_uri_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_generic_uri_tester.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_sip_uri_tester.obj `if test -f 'belle_sip_uri_tester.c'; then $(CYGPATH_W) 'belle_sip_uri_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_sip_uri_tester.c'; fi`
 
-belle_sip_tester-belle_http_tester.o: belle_http_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_http_tester.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_http_tester.Tpo -c -o belle_sip_tester-belle_http_tester.o `test -f 'belle_http_tester.c' || echo '$(srcdir)/'`belle_http_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_http_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_http_tester.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_http_tester.c' object='belle_sip_tester-belle_http_tester.o' libtool=no @AMDEPBACKSLASH@
+belle_sip_tester-cast_test.o: cast_test.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-cast_test.o -MD -MP -MF $(DEPDIR)/belle_sip_tester-cast_test.Tpo -c -o belle_sip_tester-cast_test.o `test -f 'cast_test.c' || echo '$(srcdir)/'`cast_test.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-cast_test.Tpo $(DEPDIR)/belle_sip_tester-cast_test.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cast_test.c' object='belle_sip_tester-cast_test.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_http_tester.o `test -f 'belle_http_tester.c' || echo '$(srcdir)/'`belle_http_tester.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-cast_test.o `test -f 'cast_test.c' || echo '$(srcdir)/'`cast_test.c
 
-belle_sip_tester-belle_http_tester.obj: belle_http_tester.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-belle_http_tester.obj -MD -MP -MF $(DEPDIR)/belle_sip_tester-belle_http_tester.Tpo -c -o belle_sip_tester-belle_http_tester.obj `if test -f 'belle_http_tester.c'; then $(CYGPATH_W) 'belle_http_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_http_tester.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-belle_http_tester.Tpo $(DEPDIR)/belle_sip_tester-belle_http_tester.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='belle_http_tester.c' object='belle_sip_tester-belle_http_tester.obj' libtool=no @AMDEPBACKSLASH@
+belle_sip_tester-cast_test.obj: cast_test.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT belle_sip_tester-cast_test.obj -MD -MP -MF $(DEPDIR)/belle_sip_tester-cast_test.Tpo -c -o belle_sip_tester-cast_test.obj `if test -f 'cast_test.c'; then $(CYGPATH_W) 'cast_test.c'; else $(CYGPATH_W) '$(srcdir)/cast_test.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/belle_sip_tester-cast_test.Tpo $(DEPDIR)/belle_sip_tester-cast_test.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cast_test.c' object='belle_sip_tester-cast_test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-belle_http_tester.obj `if test -f 'belle_http_tester.c'; then $(CYGPATH_W) 'belle_http_tester.c'; else $(CYGPATH_W) '$(srcdir)/belle_http_tester.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o belle_sip_tester-cast_test.obj `if test -f 'cast_test.c'; then $(CYGPATH_W) 'cast_test.c'; else $(CYGPATH_W) '$(srcdir)/cast_test.c'; fi`
+
+common/belle_sip_tester-bc_tester_utils.o: common/bc_tester_utils.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT common/belle_sip_tester-bc_tester_utils.o -MD -MP -MF common/$(DEPDIR)/belle_sip_tester-bc_tester_utils.Tpo -c -o common/belle_sip_tester-bc_tester_utils.o `test -f 'common/bc_tester_utils.c' || echo '$(srcdir)/'`common/bc_tester_utils.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) common/$(DEPDIR)/belle_sip_tester-bc_tester_utils.Tpo common/$(DEPDIR)/belle_sip_tester-bc_tester_utils.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='common/bc_tester_utils.c' object='common/belle_sip_tester-bc_tester_utils.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o common/belle_sip_tester-bc_tester_utils.o `test -f 'common/bc_tester_utils.c' || echo '$(srcdir)/'`common/bc_tester_utils.c
+
+common/belle_sip_tester-bc_tester_utils.obj: common/bc_tester_utils.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -MT common/belle_sip_tester-bc_tester_utils.obj -MD -MP -MF common/$(DEPDIR)/belle_sip_tester-bc_tester_utils.Tpo -c -o common/belle_sip_tester-bc_tester_utils.obj `if test -f 'common/bc_tester_utils.c'; then $(CYGPATH_W) 'common/bc_tester_utils.c'; else $(CYGPATH_W) '$(srcdir)/common/bc_tester_utils.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) common/$(DEPDIR)/belle_sip_tester-bc_tester_utils.Tpo common/$(DEPDIR)/belle_sip_tester-bc_tester_utils.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='common/bc_tester_utils.c' object='common/belle_sip_tester-bc_tester_utils.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(belle_sip_tester_CFLAGS) $(CFLAGS) -c -o common/belle_sip_tester-bc_tester_utils.obj `if test -f 'common/bc_tester_utils.c'; then $(CYGPATH_W) 'common/bc_tester_utils.c'; else $(CYGPATH_W) '$(srcdir)/common/bc_tester_utils.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -791,6 +866,8 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f common/$(DEPDIR)/$(am__dirstamp)
+	-rm -f common/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -801,7 +878,7 @@ clean-am: clean-generic clean-libtool clean-noinstPROGRAMS \
 	mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf ./$(DEPDIR) common/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -847,7 +924,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf ./$(DEPDIR) common/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

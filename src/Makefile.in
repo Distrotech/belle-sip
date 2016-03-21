@@ -79,9 +79,10 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-@BUILD_TUNNEL_TRUE@am__append_1 = transports/tunnel_listeningpoint.c \
-@BUILD_TUNNEL_TRUE@									transports/tunnel_channel.c \
-@BUILD_TUNNEL_TRUE@									transports/tunnel_wrapper.cc
+@BUILD_APPLE_TRUE@am__append_1 = backgroundtask.m
+@BUILD_TUNNEL_TRUE@am__append_2 = transports/tunnel_listeningpoint.c \
+@BUILD_TUNNEL_TRUE@			transports/tunnel_channel.c \
+@BUILD_TUNNEL_TRUE@			transports/tunnel_wrapper.cc
 
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
@@ -125,10 +126,10 @@ am__uninstall_files_from_dir = { \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
 am__installdirs = "$(DESTDIR)$(libdir)"
-LTLIBRARIES = $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES)
+LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libbellesip_la_DEPENDENCIES = grammars/libbellesip_generated.la \
-	libbellesip_tls.la $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
 am__libbellesip_la_SOURCES_DIST = clock_gettime.c clock_gettime.h \
 	port.c port.h parserutils.h belle_sip_uri_impl.c \
@@ -141,12 +142,15 @@ am__libbellesip_la_SOURCES_DIST = clock_gettime.c clock_gettime.h \
 	dialog.c auth_event.c transports/udp_listeningpoint.c \
 	transports/udp_channel.c transports/stream_channel.c \
 	transports/stream_channel.h transports/stream_listeningpoint.c \
-	refresher.c dns.c dns.h belle_sip_dict.c generic-uri.c \
-	http-provider.c http-message.c http-listener.c \
+	transports/tls_listeningpoint_polarssl.c \
+	transports/tls_channel_polarssl.c refresher.c dns.c dns.h \
+	belle_sip_dict.c generic-uri.c http-provider.c http-message.c \
+	http-listener.c bodyhandler.c backgroundtask.m \
 	transports/tunnel_listeningpoint.c transports/tunnel_channel.c \
 	transports/tunnel_wrapper.cc
 am__dirstamp = $(am__leading_dot)dirstamp
-@BUILD_TUNNEL_TRUE@am__objects_1 = transports/libbellesip_la-tunnel_listeningpoint.lo \
+@BUILD_APPLE_TRUE@am__objects_1 = backgroundtask.lo
+@BUILD_TUNNEL_TRUE@am__objects_2 = transports/libbellesip_la-tunnel_listeningpoint.lo \
 @BUILD_TUNNEL_TRUE@	transports/libbellesip_la-tunnel_channel.lo \
 @BUILD_TUNNEL_TRUE@	transports/libbellesip_la-tunnel_wrapper.lo
 am_libbellesip_la_OBJECTS = libbellesip_la-clock_gettime.lo \
@@ -169,10 +173,13 @@ am_libbellesip_la_OBJECTS = libbellesip_la-clock_gettime.lo \
 	transports/libbellesip_la-udp_channel.lo \
 	transports/libbellesip_la-stream_channel.lo \
 	transports/libbellesip_la-stream_listeningpoint.lo \
+	transports/libbellesip_la-tls_listeningpoint_polarssl.lo \
+	transports/libbellesip_la-tls_channel_polarssl.lo \
 	libbellesip_la-refresher.lo libbellesip_la-dns.lo \
 	libbellesip_la-belle_sip_dict.lo libbellesip_la-generic-uri.lo \
 	libbellesip_la-http-provider.lo libbellesip_la-http-message.lo \
-	libbellesip_la-http-listener.lo $(am__objects_1)
+	libbellesip_la-http-listener.lo libbellesip_la-bodyhandler.lo \
+	$(am__objects_1) $(am__objects_2)
 libbellesip_la_OBJECTS = $(am_libbellesip_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -182,15 +189,6 @@ libbellesip_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(libbellesip_la_CXXFLAGS) $(CXXFLAGS) \
 	$(libbellesip_la_LDFLAGS) $(LDFLAGS) -o $@
-libbellesip_tls_la_LIBADD =
-am_libbellesip_tls_la_OBJECTS =  \
-	transports/libbellesip_tls_la-tls_listeningpoint_polarssl.lo \
-	transports/libbellesip_tls_la-tls_channel_polarssl.lo
-libbellesip_tls_la_OBJECTS = $(am_libbellesip_tls_la_OBJECTS)
-libbellesip_tls_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(libbellesip_tls_la_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
-	$(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -243,9 +241,26 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(libbellesip_la_SOURCES) $(libbellesip_tls_la_SOURCES)
-DIST_SOURCES = $(am__libbellesip_la_SOURCES_DIST) \
-	$(libbellesip_tls_la_SOURCES)
+OBJCCOMPILE = $(OBJC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_OBJCFLAGS) $(OBJCFLAGS)
+LTOBJCCOMPILE = $(LIBTOOL) $(AM_V_lt) $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=compile $(OBJC) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_OBJCFLAGS) $(OBJCFLAGS)
+AM_V_OBJC = $(am__v_OBJC_@AM_V@)
+am__v_OBJC_ = $(am__v_OBJC_@AM_DEFAULT_V@)
+am__v_OBJC_0 = @echo "  OBJC    " $@;
+am__v_OBJC_1 = 
+OBJCLD = $(OBJC)
+OBJCLINK = $(LIBTOOL) $(AM_V_lt) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=link $(OBJCLD) $(AM_OBJCFLAGS) $(OBJCFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+AM_V_OBJCLD = $(am__v_OBJCLD_@AM_V@)
+am__v_OBJCLD_ = $(am__v_OBJCLD_@AM_DEFAULT_V@)
+am__v_OBJCLD_0 = @echo "  OBJCLD  " $@;
+am__v_OBJCLD_1 = 
+SOURCES = $(libbellesip_la_SOURCES)
+DIST_SOURCES = $(am__libbellesip_la_SOURCES_DIST)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -325,6 +340,8 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+BELLESIP_SO_CURRENT = @BELLESIP_SO_CURRENT@
+BELLESIP_SO_VERSION = @BELLESIP_SO_VERSION@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
@@ -361,6 +378,7 @@ LESS_STRICT_OPTIONS = @LESS_STRICT_OPTIONS@
 LIBBELLESIP_CFLAGS = @LIBBELLESIP_CFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LIBS_PRIVATE = @LIBS_PRIVATE@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -370,6 +388,9 @@ MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 NM = @NM@
 NMEDIT = @NMEDIT@
+OBJC = @OBJC@
+OBJCDEPMODE = @OBJCDEPMODE@
+OBJCFLAGS = @OBJCFLAGS@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 OTOOL = @OTOOL@
@@ -386,10 +407,13 @@ PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 RANLIB = @RANLIB@
+REQUIRES_PRIVATE = @REQUIRES_PRIVATE@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRICT_OPTIONS = @STRICT_OPTIONS@
+STRICT_OPTIONS_CC = @STRICT_OPTIONS_CC@
+STRICT_OPTIONS_CXX = @STRICT_OPTIONS_CXX@
 STRIP = @STRIP@
 TLS_CFLAGS = @TLS_CFLAGS@
 TLS_LIBS = @TLS_LIBS@
@@ -405,6 +429,7 @@ ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
+ac_ct_OBJC = @ac_ct_OBJC@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
 am__quote = @am__quote@
@@ -456,11 +481,6 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = grammars
 AUTOMAKE_OPTIONS = subdir-objects
-noinst_LTLIBRARIES = libbellesip_tls.la
-
-#to disable warning introduced by compatibility between polar 1.2 and 1.3
-libbellesip_tls_la_SOURCES = transports/tls_listeningpoint_polarssl.c transports/tls_channel_polarssl.c
-libbellesip_tls_la_CFLAGS = $(LESS_STRICT_OPTIONS) $(TLS_CFLAGS)  $(LIBBELLESIP_CFLAGS)
 lib_LTLIBRARIES = libbellesip.la
 libbellesip_la_SOURCES = clock_gettime.c clock_gettime.h port.c port.h \
 	parserutils.h belle_sip_uri_impl.c belle_sip_headers_impl.c \
@@ -472,18 +492,20 @@ libbellesip_la_SOURCES = clock_gettime.c clock_gettime.h port.c port.h \
 	ict.c ist.c nict.c nist.c dialog.c auth_event.c \
 	transports/udp_listeningpoint.c transports/udp_channel.c \
 	transports/stream_channel.c transports/stream_channel.h \
-	transports/stream_listeningpoint.c refresher.c dns.c dns.h \
+	transports/stream_listeningpoint.c \
+	transports/tls_listeningpoint_polarssl.c \
+	transports/tls_channel_polarssl.c refresher.c dns.c dns.h \
 	belle_sip_dict.c generic-uri.c http-provider.c http-message.c \
-	http-listener.c $(am__append_1)
-libbellesip_la_CFLAGS = $(STRICT_OPTIONS) $(ANTLR_CFLAGS) $(TLS_CFLAGS) $(TUNNEL_CFLAGS) $(LIBBELLESIP_CFLAGS) 
-libbellesip_la_CXXFLAGS = $(STRICT_OPTIONS) $(TLS_CFLAGS) $(TUNNEL_CFLAGS) $(LIBBELLESIP_CFLAGS)
-libbellesip_la_LIBADD = grammars/libbellesip_generated.la libbellesip_tls.la $(ANTLR_LIBS) $(TLS_LIBS) $(TUNNEL_LIBS)
-libbellesip_la_LDFLAGS = -no-undefined $(LDFLAGS)
-AM_CPPFLAGS = -I$(top_srcdir)/include -I$(builddir)/grammars 
+	http-listener.c bodyhandler.c $(am__append_1) $(am__append_2)
+libbellesip_la_CFLAGS = $(STRICT_OPTIONS) $(STRICT_OPTIONS_CC) $(ANTLR_CFLAGS) $(TLS_CFLAGS) $(TUNNEL_CFLAGS) $(LIBBELLESIP_CFLAGS)
+libbellesip_la_CXXFLAGS = $(STRICT_OPTIONS) $(STRICT_OPTIONS_CXX) $(TLS_CFLAGS) $(TUNNEL_CFLAGS) $(LIBBELLESIP_CFLAGS)
+libbellesip_la_LIBADD = grammars/libbellesip_generated.la $(ANTLR_LIBS) $(TLS_LIBS) $(TUNNEL_LIBS)
+libbellesip_la_LDFLAGS = -no-undefined -version-info $(BELLESIP_SO_VERSION) $(LDFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir)/include -I$(builddir)/grammars
 all: all-recursive
 
 .SUFFIXES:
-.SUFFIXES: .c .cc .lo .o .obj
+.SUFFIXES: .c .cc .lo .m .o .obj
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -549,17 +571,6 @@ clean-libLTLIBRARIES:
 	  echo rm -f $${locs}; \
 	  rm -f $${locs}; \
 	}
-
-clean-noinstLTLIBRARIES:
-	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
-	@list='$(noinst_LTLIBRARIES)'; \
-	locs=`for p in $$list; do echo $$p; done | \
-	      sed 's|^[^/]*$$|.|; s|/[^/]*$$||; s|$$|/so_locations|' | \
-	      sort -u`; \
-	test -z "$$locs" || { \
-	  echo rm -f $${locs}; \
-	  rm -f $${locs}; \
-	}
 transports/$(am__dirstamp):
 	@$(MKDIR_P) transports
 	@: > transports/$(am__dirstamp)
@@ -577,6 +588,12 @@ transports/libbellesip_la-stream_channel.lo:  \
 transports/libbellesip_la-stream_listeningpoint.lo:  \
 	transports/$(am__dirstamp) \
 	transports/$(DEPDIR)/$(am__dirstamp)
+transports/libbellesip_la-tls_listeningpoint_polarssl.lo:  \
+	transports/$(am__dirstamp) \
+	transports/$(DEPDIR)/$(am__dirstamp)
+transports/libbellesip_la-tls_channel_polarssl.lo:  \
+	transports/$(am__dirstamp) \
+	transports/$(DEPDIR)/$(am__dirstamp)
 transports/libbellesip_la-tunnel_listeningpoint.lo:  \
 	transports/$(am__dirstamp) \
 	transports/$(DEPDIR)/$(am__dirstamp)
@@ -589,15 +606,6 @@ transports/libbellesip_la-tunnel_wrapper.lo:  \
 
 libbellesip.la: $(libbellesip_la_OBJECTS) $(libbellesip_la_DEPENDENCIES) $(EXTRA_libbellesip_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(libbellesip_la_LINK) -rpath $(libdir) $(libbellesip_la_OBJECTS) $(libbellesip_la_LIBADD) $(LIBS)
-transports/libbellesip_tls_la-tls_listeningpoint_polarssl.lo:  \
-	transports/$(am__dirstamp) \
-	transports/$(DEPDIR)/$(am__dirstamp)
-transports/libbellesip_tls_la-tls_channel_polarssl.lo:  \
-	transports/$(am__dirstamp) \
-	transports/$(DEPDIR)/$(am__dirstamp)
-
-libbellesip_tls.la: $(libbellesip_tls_la_OBJECTS) $(libbellesip_tls_la_DEPENDENCIES) $(EXTRA_libbellesip_tls_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libbellesip_tls_la_LINK)  $(libbellesip_tls_la_OBJECTS) $(libbellesip_tls_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -607,6 +615,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/backgroundtask.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libbellesip_la-auth_event.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libbellesip_la-auth_helper.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libbellesip_la-belle_sdp_impl.Plo@am__quote@
@@ -618,6 +627,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libbellesip_la-belle_sip_resolver.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libbellesip_la-belle_sip_uri_impl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libbellesip_la-belle_sip_utils.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libbellesip_la-bodyhandler.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libbellesip_la-channel.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libbellesip_la-clock_gettime.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libbellesip_la-dialog.Plo@am__quote@
@@ -641,13 +651,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libbellesip_la-transaction.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@transports/$(DEPDIR)/libbellesip_la-stream_channel.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@transports/$(DEPDIR)/libbellesip_la-stream_listeningpoint.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@transports/$(DEPDIR)/libbellesip_la-tls_channel_polarssl.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@transports/$(DEPDIR)/libbellesip_la-tls_listeningpoint_polarssl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@transports/$(DEPDIR)/libbellesip_la-tunnel_channel.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@transports/$(DEPDIR)/libbellesip_la-tunnel_listeningpoint.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@transports/$(DEPDIR)/libbellesip_la-tunnel_wrapper.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@transports/$(DEPDIR)/libbellesip_la-udp_channel.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@transports/$(DEPDIR)/libbellesip_la-udp_listeningpoint.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@transports/$(DEPDIR)/libbellesip_tls_la-tls_channel_polarssl.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@transports/$(DEPDIR)/libbellesip_tls_la-tls_listeningpoint_polarssl.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -876,6 +886,20 @@ transports/libbellesip_la-stream_listeningpoint.lo: transports/stream_listeningp
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libbellesip_la_CFLAGS) $(CFLAGS) -c -o transports/libbellesip_la-stream_listeningpoint.lo `test -f 'transports/stream_listeningpoint.c' || echo '$(srcdir)/'`transports/stream_listeningpoint.c
 
+transports/libbellesip_la-tls_listeningpoint_polarssl.lo: transports/tls_listeningpoint_polarssl.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libbellesip_la_CFLAGS) $(CFLAGS) -MT transports/libbellesip_la-tls_listeningpoint_polarssl.lo -MD -MP -MF transports/$(DEPDIR)/libbellesip_la-tls_listeningpoint_polarssl.Tpo -c -o transports/libbellesip_la-tls_listeningpoint_polarssl.lo `test -f 'transports/tls_listeningpoint_polarssl.c' || echo '$(srcdir)/'`transports/tls_listeningpoint_polarssl.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) transports/$(DEPDIR)/libbellesip_la-tls_listeningpoint_polarssl.Tpo transports/$(DEPDIR)/libbellesip_la-tls_listeningpoint_polarssl.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='transports/tls_listeningpoint_polarssl.c' object='transports/libbellesip_la-tls_listeningpoint_polarssl.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libbellesip_la_CFLAGS) $(CFLAGS) -c -o transports/libbellesip_la-tls_listeningpoint_polarssl.lo `test -f 'transports/tls_listeningpoint_polarssl.c' || echo '$(srcdir)/'`transports/tls_listeningpoint_polarssl.c
+
+transports/libbellesip_la-tls_channel_polarssl.lo: transports/tls_channel_polarssl.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libbellesip_la_CFLAGS) $(CFLAGS) -MT transports/libbellesip_la-tls_channel_polarssl.lo -MD -MP -MF transports/$(DEPDIR)/libbellesip_la-tls_channel_polarssl.Tpo -c -o transports/libbellesip_la-tls_channel_polarssl.lo `test -f 'transports/tls_channel_polarssl.c' || echo '$(srcdir)/'`transports/tls_channel_polarssl.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) transports/$(DEPDIR)/libbellesip_la-tls_channel_polarssl.Tpo transports/$(DEPDIR)/libbellesip_la-tls_channel_polarssl.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='transports/tls_channel_polarssl.c' object='transports/libbellesip_la-tls_channel_polarssl.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libbellesip_la_CFLAGS) $(CFLAGS) -c -o transports/libbellesip_la-tls_channel_polarssl.lo `test -f 'transports/tls_channel_polarssl.c' || echo '$(srcdir)/'`transports/tls_channel_polarssl.c
+
 libbellesip_la-refresher.lo: refresher.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libbellesip_la_CFLAGS) $(CFLAGS) -MT libbellesip_la-refresher.lo -MD -MP -MF $(DEPDIR)/libbellesip_la-refresher.Tpo -c -o libbellesip_la-refresher.lo `test -f 'refresher.c' || echo '$(srcdir)/'`refresher.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libbellesip_la-refresher.Tpo $(DEPDIR)/libbellesip_la-refresher.Plo
@@ -925,6 +949,13 @@ libbellesip_la-http-listener.lo: http-listener.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libbellesip_la_CFLAGS) $(CFLAGS) -c -o libbellesip_la-http-listener.lo `test -f 'http-listener.c' || echo '$(srcdir)/'`http-listener.c
 
+libbellesip_la-bodyhandler.lo: bodyhandler.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libbellesip_la_CFLAGS) $(CFLAGS) -MT libbellesip_la-bodyhandler.lo -MD -MP -MF $(DEPDIR)/libbellesip_la-bodyhandler.Tpo -c -o libbellesip_la-bodyhandler.lo `test -f 'bodyhandler.c' || echo '$(srcdir)/'`bodyhandler.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libbellesip_la-bodyhandler.Tpo $(DEPDIR)/libbellesip_la-bodyhandler.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='bodyhandler.c' object='libbellesip_la-bodyhandler.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libbellesip_la_CFLAGS) $(CFLAGS) -c -o libbellesip_la-bodyhandler.lo `test -f 'bodyhandler.c' || echo '$(srcdir)/'`bodyhandler.c
+
 transports/libbellesip_la-tunnel_listeningpoint.lo: transports/tunnel_listeningpoint.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libbellesip_la_CFLAGS) $(CFLAGS) -MT transports/libbellesip_la-tunnel_listeningpoint.lo -MD -MP -MF transports/$(DEPDIR)/libbellesip_la-tunnel_listeningpoint.Tpo -c -o transports/libbellesip_la-tunnel_listeningpoint.lo `test -f 'transports/tunnel_listeningpoint.c' || echo '$(srcdir)/'`transports/tunnel_listeningpoint.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) transports/$(DEPDIR)/libbellesip_la-tunnel_listeningpoint.Tpo transports/$(DEPDIR)/libbellesip_la-tunnel_listeningpoint.Plo
@@ -938,20 +969,6 @@ transports/libbellesip_la-tunnel_channel.lo: transports/tunnel_channel.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='transports/tunnel_channel.c' object='transports/libbellesip_la-tunnel_channel.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libbellesip_la_CFLAGS) $(CFLAGS) -c -o transports/libbellesip_la-tunnel_channel.lo `test -f 'transports/tunnel_channel.c' || echo '$(srcdir)/'`transports/tunnel_channel.c
-
-transports/libbellesip_tls_la-tls_listeningpoint_polarssl.lo: transports/tls_listeningpoint_polarssl.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libbellesip_tls_la_CFLAGS) $(CFLAGS) -MT transports/libbellesip_tls_la-tls_listeningpoint_polarssl.lo -MD -MP -MF transports/$(DEPDIR)/libbellesip_tls_la-tls_listeningpoint_polarssl.Tpo -c -o transports/libbellesip_tls_la-tls_listeningpoint_polarssl.lo `test -f 'transports/tls_listeningpoint_polarssl.c' || echo '$(srcdir)/'`transports/tls_listeningpoint_polarssl.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) transports/$(DEPDIR)/libbellesip_tls_la-tls_listeningpoint_polarssl.Tpo transports/$(DEPDIR)/libbellesip_tls_la-tls_listeningpoint_polarssl.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='transports/tls_listeningpoint_polarssl.c' object='transports/libbellesip_tls_la-tls_listeningpoint_polarssl.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libbellesip_tls_la_CFLAGS) $(CFLAGS) -c -o transports/libbellesip_tls_la-tls_listeningpoint_polarssl.lo `test -f 'transports/tls_listeningpoint_polarssl.c' || echo '$(srcdir)/'`transports/tls_listeningpoint_polarssl.c
-
-transports/libbellesip_tls_la-tls_channel_polarssl.lo: transports/tls_channel_polarssl.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libbellesip_tls_la_CFLAGS) $(CFLAGS) -MT transports/libbellesip_tls_la-tls_channel_polarssl.lo -MD -MP -MF transports/$(DEPDIR)/libbellesip_tls_la-tls_channel_polarssl.Tpo -c -o transports/libbellesip_tls_la-tls_channel_polarssl.lo `test -f 'transports/tls_channel_polarssl.c' || echo '$(srcdir)/'`transports/tls_channel_polarssl.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) transports/$(DEPDIR)/libbellesip_tls_la-tls_channel_polarssl.Tpo transports/$(DEPDIR)/libbellesip_tls_la-tls_channel_polarssl.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='transports/tls_channel_polarssl.c' object='transports/libbellesip_tls_la-tls_channel_polarssl.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libbellesip_tls_la_CFLAGS) $(CFLAGS) -c -o transports/libbellesip_tls_la-tls_channel_polarssl.lo `test -f 'transports/tls_channel_polarssl.c' || echo '$(srcdir)/'`transports/tls_channel_polarssl.c
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -983,6 +1000,30 @@ transports/libbellesip_la-tunnel_wrapper.lo: transports/tunnel_wrapper.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='transports/tunnel_wrapper.cc' object='transports/libbellesip_la-tunnel_wrapper.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libbellesip_la_CXXFLAGS) $(CXXFLAGS) -c -o transports/libbellesip_la-tunnel_wrapper.lo `test -f 'transports/tunnel_wrapper.cc' || echo '$(srcdir)/'`transports/tunnel_wrapper.cc
+
+.m.o:
+@am__fastdepOBJC_TRUE@	$(AM_V_OBJC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+@am__fastdepOBJC_TRUE@	$(OBJCCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepOBJC_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	$(AM_V_OBJC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepOBJC_FALSE@	$(AM_V_OBJC@am__nodep@)$(OBJCCOMPILE) -c -o $@ $<
+
+.m.obj:
+@am__fastdepOBJC_TRUE@	$(AM_V_OBJC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+@am__fastdepOBJC_TRUE@	$(OBJCCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+@am__fastdepOBJC_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	$(AM_V_OBJC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepOBJC_FALSE@	$(AM_V_OBJC@am__nodep@)$(OBJCCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+.m.lo:
+@am__fastdepOBJC_TRUE@	$(AM_V_OBJC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.lo$$||'`;\
+@am__fastdepOBJC_TRUE@	$(LTOBJCCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepOBJC_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Plo
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	$(AM_V_OBJC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepOBJC_FALSE@	$(AM_V_OBJC@am__nodep@)$(LTOBJCCOMPILE) -c -o $@ $<
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -1188,7 +1229,7 @@ maintainer-clean-generic:
 clean: clean-recursive
 
 clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
-	clean-noinstLTLIBRARIES mostlyclean-am
+	mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -rf ./$(DEPDIR) transports/$(DEPDIR)
@@ -1260,19 +1301,18 @@ uninstall-am: uninstall-libLTLIBRARIES
 
 .PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am check \
 	check-am clean clean-generic clean-libLTLIBRARIES \
-	clean-libtool clean-noinstLTLIBRARIES cscopelist-am ctags \
-	ctags-am distclean distclean-compile distclean-generic \
-	distclean-libtool distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-libLTLIBRARIES install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs installdirs-am \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	pdf pdf-am ps ps-am tags tags-am uninstall uninstall-am \
-	uninstall-libLTLIBRARIES
+	clean-libtool cscopelist-am ctags ctags-am distclean \
+	distclean-compile distclean-generic distclean-libtool \
+	distclean-tags distdir dvi dvi-am html html-am info info-am \
+	install install-am install-data install-data-am install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am \
+	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs installdirs-am maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am uninstall-libLTLIBRARIES
 
 
 discovery:
